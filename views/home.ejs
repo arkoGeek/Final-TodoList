@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="styles.css">
+  <title>Todo List</title>
+</head>
+<body>
+  <div class="header">todos</div>
+  <div class="main">
+    <div class="entry-div">
+      <form action="/checkAll" method="post" class="checkForm">
+        <input type="hidden" name="route" value="<%=locals.render%>">
+        <button type="submit" class="btn">
+          <i class="fa-solid fa-angle-down"></i>
+        </button>
+      </form>
+      <form action="/addTask" method="post" class="taskForm">
+        <input type="hidden" name="route" value="<%=locals.render%>">
+        <input type="text" id="task" name="task" placeholder="What needs to be done?" autocomplete="off">
+      </form>
+    </div>
+    <% if(locals.tasks.length > 0) {%>
+      <ul style="list-style: none;">
+        <% locals.tasks.forEach((todo) => { %>
+          <li>
+            <div class="task-div">
+              <form action="/check" method="post" class="checkForm">
+                <input type="hidden" name="route" value="<%=locals.render%>">
+                <input type="hidden" name="checked" value="<%=todo.isCompleted%>">
+                <input type="hidden" name="checkId" value="<%=todo._id%>">
+                <input type="checkbox" name="check" 
+                onchange="this.form.submit()"
+                id="check" class="cbox"
+                <% if(todo.isCompleted){ %>
+                  checked
+                <% } %>
+                >
+              </form>
+              <span class="task 
+              <%if(todo.isCompleted){%>
+                line
+              <%}%>"><%=todo.task%></span>
+              <form action="/deleteTask" method="post" class="checkForm">
+                <input type="hidden" name="route" value="<%=locals.render%>">
+                <input type="hidden" name="delId" value="<%=todo._id%>">
+                <button type="submit" class="delBtn">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </form>
+            </div>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+    <%if(locals.fullCount > 0){%>
+      <div class="footer">
+        <div style="background-color:inherit;
+        font-weight:100;">
+          <%= locals.incompleteCount %> <%=locals.incompleteCount === 1 ? "item":"items"%> left
+        </div>
+        <div class="middleSet">
+          <div class="middleDiv">
+            <form action="/" method="get" style="background-color: rgb(252, 252, 252);">
+              <button type="submit"
+              class="footBtn
+              <%if(locals.render === '/'){%>
+                selected
+              <%}%>">All</button>
+            </form>
+          </div>
+          <div class="middleDiv">
+            <form action="/renderActive" method="get" style="background-color: rgb(252, 252, 252);">
+              <button type="submit" class="footBtn
+              <%if(locals.render === '/renderActive'){%>
+                selected
+              <%}%>">Active</button>
+            </form>
+          </div>
+          <div class="middleDiv">
+            <form action="/renderCompleted" method="get" style="background-color: rgb(252, 252, 252);">
+              <button type="submit"
+              class="footBtn
+              <%if(locals.render === '/renderCompleted'){%>
+                selected
+              <%}%>">Completed</button>
+            </form>
+          </div>
+        </div>
+        <div style="background-color:rgb(252, 252, 252);padding:0px;">
+          <form action="/deleteCompleted" method="post" style="background-color:rgb(252, 252, 252);
+          padding:0px;">
+            <input type="hidden" name="route" value="<%=locals.render%>">
+            <input type="submit" value="Clear completed" class="delComp <%if(locals.fullCount === locals.incompleteCount){%>
+              hide 
+            <%}%>">
+            <label></label>
+          </form>
+        </div>
+      </div>
+    <%}%>
+  </div>
+  <script>
+    document.getElementById("task").onkeypress = (e) => {
+      if(e.which == 13){
+        e.preventDefault();
+        e.target.parentNode.submit();
+      }
+    }
+  </script>
+</body>
+</html>

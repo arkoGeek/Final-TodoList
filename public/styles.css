@@ -1,0 +1,194 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500&display=swap');
+
+*{
+  margin: 0px;
+  padding: 0px;
+  background: rgba(235, 235, 235, 0.921);
+  font-family: 'Roboto', sans-serif;
+}
+
+.header{
+  width: 38%;
+  margin: auto;
+  text-align:center;
+  font-size: 6rem;
+  font-weight: 100;
+  color:rgba(222, 158, 158, 0.622);
+}
+
+.main{
+  background-color:rgb(252, 252, 252);
+  width: 40rem;
+  margin: auto;
+}
+
+.entry-div,.task-div, .footer{
+  background-color:rgb(252, 252, 252);
+  display:flex;
+  align-items: center;
+  box-shadow: 3px 6px 27px -10px rgba(0,0,0,0.75);
+  border: solid 1px lightgray;
+}
+
+.checkForm{
+  width: 15%;
+  background-color: inherit;
+  display:flex;
+}
+
+.btn, .delBtn{
+  appearance:none;
+  border:none;
+  background-color: inherit;
+  margin:auto;
+  padding: 0.5rem;
+}
+
+.btn i{
+  background-color: inherit;
+  font-size:1.4rem;
+}
+
+.taskForm{
+  flex:1;
+  background-color: inherit;
+  margin-top:0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+#task{
+  width:98%;
+  appearance:none;
+  border:none;
+  line-height: 1.5rem;
+  font-size: 1.5rem;
+  font-weight:100;
+  background-color: inherit;
+}
+
+#task::placeholder{
+  font-style:italic;
+  font-weight:50;
+}
+
+#task:focus{
+  outline:none;
+}
+
+.cbox{
+  margin:auto;
+  appearance:none;
+  background-color: inherit;
+  height:1.3rem;
+  width: 1.3rem;
+  border-radius:1rem;
+  cursor: pointer;
+  border: 1px solid rgb(143, 209, 143);
+  display:flex;
+  align-items:center;
+  justify-content: space-around;
+}
+
+.cbox:after{
+  font-family:"Font Awesome 6 Free";
+  content:"\f00c";
+  font-weight: 900;
+  color: rgb(143, 209, 143);
+  display:none;
+}
+
+.cbox:checked:after{
+  display:block;
+}
+
+.task{
+  width:70%;
+  line-height: 1.5rem;
+  font-size: 1.6rem;
+  padding: 0.5rem 0rem 0.5rem 0rem;
+  background-color: inherit;
+}
+
+.line{
+  text-decoration: line-through;
+}
+
+.task-div{
+  font-weight: 100;
+  padding-top:0.5rem;
+  padding-bottom:0.5rem;
+}
+
+.delBtn i{
+  padding:0rem;
+  background-color: inherit;
+  font-size:1.4rem;
+  color:rgb(212, 128, 128);
+}
+
+.task-div .checkForm .delBtn{
+  display:none;
+}
+
+.task-div:hover .checkForm .delBtn{
+  display:block;
+  cursor:pointer;
+}
+
+.footer{
+  padding: 0.7rem 1rem;
+  justify-content: space-between;
+  background-color: rgb(252, 252, 252);
+}
+
+.delComp{
+  appearance: none;
+  border:none;
+  background-color: rgb(252, 252, 252);
+  font-weight:100;
+  padding:0px;
+  font-size:1rem;
+  cursor:pointer;
+  display:block;
+}
+
+.delComp:hover{
+  text-decoration: underline;
+}
+
+.middleSet{
+  display:flex;
+  background-color: inherit;
+}
+
+.middleDiv{
+  margin-inline:0.5rem;
+  background-color: rgb(252, 252, 252);
+}
+
+.footBtn{
+  appearance:none;
+  border:none;
+  background-color: rgb(252, 252, 252);
+  font-weight:100;
+  padding:0px;
+  font-size:1rem;
+  cursor:pointer;
+  padding:0.3rem 0.5rem;
+  margin:0.2rem;
+  border-radius: 0.3rem;
+}
+
+.footBtn:hover{
+  border: 1px solid rgba(226, 192, 192, 0.622);
+}
+
+.selected{
+  border: 1px solid rgba(222, 158, 158, 0.622);
+}
+
+.hide{
+  visibility: hidden;
+}
+
+
