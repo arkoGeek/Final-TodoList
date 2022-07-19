@@ -14,7 +14,10 @@
     <div class="entry-div">
       <form action="/checkAll" method="post" class="checkForm">
         <input type="hidden" name="route" value="<%=locals.render%>">
-        <button type="submit" class="btn">
+        <button type="submit" class="btn
+        <%if(incompleteCount === 0 && fullCount > 0){%>
+          black
+        <%}%>">
           <i class="fa-solid fa-angle-down"></i>
         </button>
       </form>

@@ -42,6 +42,11 @@
   background-color: inherit;
   margin:auto;
   padding: 0.5rem;
+  color: rgb(141, 141, 141);
+}
+
+.black{
+  color: black;
 }
 
 .btn i{
