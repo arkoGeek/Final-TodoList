@@ -17,68 +17,50 @@ mongoose.connect(DB)
   console.log("Error connecting to Database");
 });
 
-app.get("/", (req, res) => {
-  Task.find({}, (err, data) => {
-    if(!err){
-      Task.find({isCompleted : false}, (err, data1) => {
-        if(!err){
-          res.render("home", {tasks : data, incompleteCount : data1.length, fullCount : data.length, render:"/"});
-        }
-      })
-    }else{
-      console.log("Error is : "+err);
-      res.send("Error encountered.");
-    }
-  })
+app.get("/", async (req, res) => {
+  try{
+    let data = await Task.find({});
+    let data1 = await Task.find({isCompleted : false});
+    res.render("home", {tasks : data, incompleteCount : data1.length, fullCount : data.length, render:"/"});
+  }catch(err){
+    console.log(err);
+  }
 })
 
-app.get("/renderCompleted", (req, res) => {
-  Task.find({}, (err, fullData) => {
-    if(!err){
-      Task.find({isCompleted: true}, (err, data) => {
-        if(!err){
-          Task.find({isCompleted : false}, (err, data1) => {
-            if(!err){
-              res.render("home", {tasks : data, incompleteCount : data1.length, fullCount : fullData.length, render:"/renderCompleted"});
-            }
-          })
-        }else{
-          console.log("Error is : "+err);
-          res.send("Error encountered.");
-        }
-      })
-    }
-  })
+app.get("/renderCompleted", async (req, res) => {
+  try{
+    let fullData = await Task.find({});
+    let data = await Task.find({isCompleted : true});
+    let data1 = await Task.find({isCompleted : false});
+    res.render("home", {tasks : data, incompleteCount : data1.length, fullCount : fullData.length, render:"/renderCompleted"});
+  }catch(err){
+    console.log(err);
+  }
 })
 
-app.get("/renderActive", (req, res) => {
-  Task.find({}, (err, data) => {
-    if(!err){
-      Task.find({isCompleted : false}, (err, data1) => {
-        if(!err){
-          res.render("home", {tasks : data1, incompleteCount : data1.length, fullCount:data.length, render:"/renderActive"});
-        }
-      })
-    }else{
-      console.log("Error is : "+err);
-      res.send("Error encountered.");
-    }
-  })
+app.get("/renderActive", async(req, res) => {
+  try{
+    let data = await Task.find({});
+    let data1 = await Task.find({isCompleted : false});
+    res.render("home", {tasks : data1, incompleteCount : data1.length, fullCount:data.length, render:"/renderActive"});
+  }catch(err){
+    console.log(err);
+  }
 })
 
-app.post("/addTask", (req, res) => {
+app.post("/addTask", async (req, res) => {
   if(req.body.task === ""){
     res.redirect(req.body.route);
   }else{
     let task = new Task({
       task : req.body.task
     })
-    task.save()
-    .then(() => {
+    try{
+      await task.save();
       res.redirect(req.body.route);
-    }).catch(err => {
+    }catch(err){
       console.log("Error occured while adding : "+err);
-    });
+    }
   }
 })
 
@@ -117,25 +99,19 @@ app.post("/check", (req, res) => {
   })
 })
 
-app.post("/checkAll", (req, res) => {
-  Task.find({isCompleted:false}, (err, data) => {
-    if(!err){
-      let obj = {};
-      obj.isCompleted = false;
-      if(data.length > 0){
-        obj.isCompleted = true;
-      }
-      Task.updateMany({}, {$set : obj}, 
-        (err) => {
-          if(err){
-            console.log("Error while updating all : "+err);
-          }else{
-            res.redirect(req.body.route);
-          }
-        })
+app.post("/checkAll", async (req, res) => {
+  try{
+    let data = await Task.find({isCompleted:false});
+    let obj = {};
+    obj.isCompleted = false;
+    if(data.length > 0){
+      obj.isCompleted = true;
     }
-  })
-  
+    await Task.updateMany({}, {$set : obj});
+    res.redirect(req.body.route);
+  }catch(err){
+    console.log("Error while updating all : "+err);
+  }
 })
 
 app.listen(8000, () => {
