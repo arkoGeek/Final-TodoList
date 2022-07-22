@@ -10,12 +10,16 @@ const Task = require("./taskModel");
 
 const DB = "mongodb+srv://arkomitra:arkomitra@cluster0.jlubh0c.mongodb.net/todoDB?retryWrites=true&w=majority";
 
-mongoose.connect(DB)
-.then(() => {
-  console.log("Successfully connected to Mongo");
-}).catch((err) => {
-  console.log("Error connecting to Database");
-});
+const connectDB = async () => {
+  try{
+    await mongoose.connect(DB);
+    console.log("Successfully connected to Mongo");
+  }catch(err){
+    console.log("Error connecting to Database");
+  }
+}
+
+connectDB();
 
 app.get("/", async (req, res) => {
   try{
@@ -64,39 +68,36 @@ app.post("/addTask", async (req, res) => {
   }
 })
 
-app.post("/deleteTask", (req, res) => {
-  Task.deleteOne({_id : req.body.delId}, (err) => {
-    if(!err){
-      res.redirect(req.body.route);
-    }else{
-      console.log("Error occured while deleting : "+err);
-    }
-  })
+app.post("/deleteTask", async (req, res) => {
+  try{
+    await Task.deleteOne({_id : req.body.delId});
+    res.redirect(req.body.route);
+  }catch(err){
+    console.log("Error occured while deleting : "+err);
+  }
 })
 
-app.post("/deleteCompleted", (req, res) => {
-  Task.deleteMany({isCompleted : true}, (err) => {
-    if(!err){
-      res.redirect(req.body.route);
-    }else{
-      console.log("Error occured while deleting completed items : "+err);
-    }
-  })
+app.post("/deleteCompleted", async (req, res) => {
+  try{
+    await Task.deleteMany({isCompleted : true});
+    res.redirect(req.body.route);
+  }catch(err){
+    console.log("Error occured while deleting completed items : "+err);
+  }
 })
 
-app.post("/check", (req, res) => {
+app.post("/check", async (req, res) => {
   let obj = {};
   obj.isCompleted = false;
   if(req.body.check === "on"){
     obj.isCompleted = true;
   }
-  Task.updateOne({_id : req.body.checkId}, {$set : obj}, (err) => {
-    if(err){
-      console.log("Error while updating : "+err);
-    }else{
-      res.redirect(req.body.route);
-    }
-  })
+  try{
+    await Task.updateOne({_id : req.body.checkId}, {$set : obj});
+    res.redirect(req.body.route);
+  }catch{
+    console.log("Error while updating : "+err);
+  }
 })
 
 app.post("/checkAll", async (req, res) => {

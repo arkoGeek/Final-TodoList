@@ -63,7 +63,7 @@
       <div class="footer">
         <div style="background-color:inherit;
         font-weight:100;">
-          <%= locals.incompleteCount %> <%=locals.incompleteCount === 1 ? "item":"items"%> left
+          <%= locals.incompleteCount %> <%=locals.incompleteCount === 1 ? "task":"tasks"%> left
         </div>
         <div class="middleSet">
           <div class="middleDiv">
@@ -100,7 +100,6 @@
             <input type="submit" value="Clear completed" class="delComp <%if(locals.fullCount === locals.incompleteCount){%>
               hide 
             <%}%>">
-            <label></label>
           </form>
         </div>
       </div>
